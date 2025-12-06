@@ -1,0 +1,111 @@
+ 
+ import "google/protobuf/empty.proto";
+ syntax = "proto3";
+
+  package inventory;
+
+
+  service InventoryService {
+    rpc GetProduct (GetProductRequest) returns (GetProductResponse){}
+    rpc FindOneProductByCategory (CategoryCheckRequest) returns (CategoryCheckResponse) {}
+    rpc  UpdateProductStock (UpdateProductStockRequest) returns (google.protobuf.Empty){}
+     rpc getProductsImage (getProductsImageRequest) returns (getProductsImageResponse){}
+     rpc getOrderProducts (getOrderProductsRequest) returns (getOrderProductsResponse){}
+
+  }
+
+
+  
+  message orderproductsID {
+ 
+     string productID = 1 ;
+
+}
+
+
+  message getOrderProductsRequest {
+
+   repeated productsID products = 1;
+  }
+
+  
+
+ message orderProducts {
+   string productID = 1;
+   int32 price = 3;
+   repeated string imageURL = 2;
+  
+}
+
+message getOrderProductsResponse {
+  repeated Products products  = 1 ;
+
+ 
+}
+
+
+
+
+
+
+  message productsID {
+ 
+     string productID = 1 ;
+
+}
+
+
+  message getProductsImageRequest {
+
+   repeated productsID products = 1;
+  }
+
+  
+
+ message Products {
+   string productID = 1;
+   int32 price = 3;
+   repeated string imageURL = 2;
+  
+}
+
+message getProductsImageResponse {
+  repeated Products products  = 1 ;
+
+ 
+}
+
+
+
+  message ProductIDListRequest {
+     string ProductID = 1;
+     int32 quantity = 2;
+  }
+
+  message UpdateProductStockRequest {
+   repeated ProductIDListRequest  Products = 1;
+  }
+
+  
+
+  message GetProductRequest {
+    string id = 1;
+  }
+
+  message GetProductResponse {
+    string id = 1;
+    string name = 2;
+    string price = 3;
+    int32 stock = 4 ;
+  }
+
+
+
+  message CategoryCheckRequest {
+    string categoryID  = 1;
+
+  }
+
+  message CategoryCheckResponse {
+  string productID = 1; 
+}

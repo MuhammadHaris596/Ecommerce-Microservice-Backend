@@ -1,5 +1,5 @@
-import { Injectable,BadRequestException,ConflictException,Res } from '@nestjs/common';
-import { LoginDto, RegisterDto } from '../DTO/registerUser.Dto';
+import { Injectable,BadRequestException,ConflictException,Res, NotFoundException } from '@nestjs/common';
+import { LoginDto, RegisterDto } from '../DTO/registerUser_login.Dto';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './Schema/schema.auth';
@@ -15,6 +15,21 @@ export class AuthService {
                 private readonly jwtService: JwtService
  
                ) {}
+
+  
+   async getUser(id : string) {
+    
+    if(!id) throw new BadRequestException ("User id is required")
+
+      const user  = await this.userModel.findById(id)
+      if(!user) throw new NotFoundException("User did not exist")
+
+        return {
+          id : user._id.toString()
+        }
+   }
+
+
 
   async registerUser(registerDto: RegisterDto){
 
@@ -128,3 +143,4 @@ async resetPassword( code : string, newPassword: string) {
 
 
 }
+

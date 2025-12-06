@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
+import slugify from 'slugify';
 
 export type CategoryDocument = HydratedDocument<Category>;
 
@@ -25,3 +26,12 @@ export class Category {
 }
 
 export const CategorySchema = SchemaFactory.createForClass(Category);
+
+CategorySchema.pre('validate', function(next) {
+    this.slug = slugify(this.name, { lower: true });
+    next();
+});
+
+
+
+

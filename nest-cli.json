@@ -19,31 +19,22 @@
         "tsConfigPath": "apps/auth-service/tsconfig.app.json"
       }
     },
-    "category": {
+    "cart": {
+      "type": "application",
+      "root": "apps/cart",
+      "entryFile": "main",
+      "sourceRoot": "apps/cart/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/cart/tsconfig.app.json"
+      }
+    },
+     "category": {
       "type": "application",
       "root": "apps/category",
       "entryFile": "main",
       "sourceRoot": "apps/category/src",
       "compilerOptions": {
         "tsConfigPath": "apps/category/tsconfig.app.json"
-      }
-    },
-    "clerk": {
-      "type": "application",
-      "root": "apps/clerk",
-      "entryFile": "main",
-      "sourceRoot": "apps/clerk/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/clerk/tsconfig.app.json"
-      }
-    },
-    "ecommerce-microservices": {
-      "type": "application",
-      "root": "apps/ecommerce-microservices",
-      "entryFile": "main",
-      "sourceRoot": "apps/ecommerce-microservices/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/ecommerce-microservices/tsconfig.app.json"
       }
     },
     "inventory": {
@@ -53,6 +44,15 @@
       "sourceRoot": "apps/inventory/src",
       "compilerOptions": {
         "tsConfigPath": "apps/inventory/tsconfig.app.json"
+      }
+    },
+    "order": {
+      "type": "application",
+      "root": "apps/order",
+      "entryFile": "main",
+      "sourceRoot": "apps/order/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/order/tsconfig.app.json"
       }
     }
   }

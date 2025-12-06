@@ -3,26 +3,40 @@ import { CategoryController } from './category.controller';
 import { CategoryService } from './category.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Category,CategorySchema } from './Schema/schema.category';
-import { ConfigModule } from '@nestjs/config';
-import { JwtModule} from '@nestjs/jwt';
+import { CloudinaryModule } from 'apps/cloudinary/src/cloudinary.module';
+import { CategoryUploadInterceptor } from './categoryUploader';
+import { JwtModule } from '@nestjs/jwt';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { join } from 'path';
+
 
 
 
 @Module({
   imports: [
-       ConfigModule.forRoot({ isGlobal: true }),
-       
-       JwtModule.register({ 
-       global: true,
-       secret: process.env.JWT_SECRET ,
-       signOptions: { expiresIn: '1h' },
-      }), 
-
+          JwtModule.register({
+               global: true,
+               secret: process.env.JWT_SECRET ,
+               signOptions: { expiresIn: '1h' },
+              }), 
+        
+        CloudinaryModule,
         MongooseModule.forRoot(process.env.Category_MONGODB_URL as string),
-
-         MongooseModule.forFeature([{ name: Category.name, schema: CategorySchema }])
-  
-       ],
+        MongooseModule.forFeature([{ name: Category.name, schema: CategorySchema }]),
+           ClientsModule.register([
+              {
+                name: 'INVENTORY_SERVICE',  
+                transport: Transport.GRPC,
+                options: {
+                  package: 'inventory',
+                  protoPath : join( process.cwd(), 'apps/shared-Resources/protos/product.proto'),
+                  url : process.env.Inventory_Grpc_Port
+                },
+              },
+      
+              
+            ])
+    ],
   
     controllers: [CategoryController],
   

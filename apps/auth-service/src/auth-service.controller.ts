@@ -1,16 +1,31 @@
 import { Controller, Post, Body, Res,UseGuards , Get , Request } from '@nestjs/common';
 import { AuthService } from './auth-service.service';
-import { LoginDto, RegisterDto } from '../DTO/registerUser.Dto';
-import { ApiBasicAuth } from '@nestjs/swagger';
+import { LoginDto, RegisterDto } from '../DTO/registerUser_login.Dto';
+import { ApiBasicAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '../../shared-Resources/auth-service.guard';
-import { Roles } from '../../shared-Resources/roles.decorator';
-import { Role } from '../../shared-Resources/schema.role';
-import { RolesGuard } from '../../shared-Resources/roles.guard';
+import { Roles } from 'apps/shared-Resources/roles.decorator';
+import { Role } from 'apps/shared-Resources/schema.role';
+import { RolesGuard } from 'apps/shared-Resources/roles.guard';
+import { GrpcMethod } from '@nestjs/microservices';
 
-@ApiBasicAuth()
+
+@ApiBasicAuth() @ApiTags('auth')
 @Controller('auth')
 export class AuthServiceController {
   constructor(private readonly AuthService: AuthService) {}
+
+  @GrpcMethod('UserService', 'UserExist')
+    async findOne(data: { id: string }) {
+    if(!data.id)  throw new Error('User ID is required')
+      // console.log('Received gRPC request:', data);
+      try {
+        return await this.AuthService.getUser(data.id);
+      } catch (err) {
+        console.error('Error in gRPC method:', err);
+        throw err; 
+      }
+    }
+  
 
   @Post('register')
   async registerUser(@Body() registerDto: RegisterDto) {

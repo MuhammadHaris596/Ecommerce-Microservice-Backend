@@ -6,8 +6,22 @@ import { HydratedDocument } from 'mongoose';
 export type ProductDocument = HydratedDocument<Product>;
 
 @Schema()
+export class Image {
+
+@Prop({required:true})
+imageUrl:string;
+
+@Prop({required:true})
+imageID:string;
+
+}
+
+export const ProductImageSchema = SchemaFactory.createForClass(Image);
+
+
+@Schema()
 export class Product {
-  @Prop({ required: true , unique: true })
+  @Prop({ required: true   })
   name: string;
 
   @Prop({ required: true })
@@ -20,18 +34,21 @@ export class Product {
   price : string;
 
   @Prop({ required: true })
-  stock  : string;
+  stock  : number;
 
-  @Prop({ required: true })
-    imageUrl: string ;
+  @Prop({ type: [ProductImageSchema] })
+  images : Image[];
 
-   @Prop({ required: true })
-    imageID: string    
 
+  @Prop({required:true})
+   sellerID : string;
+
+   @Prop({required:true})
+   categoryID : string
+  
   @Prop({default : Date.now})
   createdAt : Date;
 
-  
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);

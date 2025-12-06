@@ -1,0 +1,40 @@
+import "google/protobuf/empty.proto";
+syntax = "proto3";
+
+package cart;
+
+
+service CartService {
+  rpc GetCart (GetCartRequest) returns (GetCartResponse){}
+  rpc ClearCart  (ClearCartRequest) returns (google.protobuf.Empty){}
+ 
+}
+
+
+
+
+message ClearCartRequest {
+  string id = 1;
+}
+
+
+message GetCartRequest {
+  string id = 1;
+}
+
+message CartItems{
+
+    string productID = 1;
+    int32 quantity = 2;
+    double price = 3;
+
+}
+
+message GetCartResponse {
+  repeated CartItems items = 1;
+  string id = 2 ;
+  int32 subTotal = 3;
+  string buyerID = 4 ;
+}
+
+
