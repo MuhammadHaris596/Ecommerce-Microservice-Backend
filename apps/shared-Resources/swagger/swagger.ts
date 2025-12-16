@@ -18,5 +18,5 @@ export function setupSwagger(app: INestApplication, serviceName: string) {
     },
   });
 
-   console.log('🚀 Swagger running on /docs');
+  console.log(' Swagger running on /docs');
 }

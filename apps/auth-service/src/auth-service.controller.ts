@@ -8,13 +8,14 @@ import {
   Request,
 } from '@nestjs/common';
 import { AuthService } from './auth-service.service';
-import { LoginDto, RegisterDto } from '../DTO/registerUser_login.Dto';
+import {LoginDto} from "./dto/login-user.dto"
 import { ApiBasicAuth, ApiTags } from '@nestjs/swagger';
+import {RegisterDto} from "./dto/register-user.dto"
 import { AuthGuard } from '../../shared-Resources/auth-service.guard';
 import { Roles } from 'apps/shared-Resources/roles.decorator';
 import { Role } from 'apps/shared-Resources/schema.role';
 import { RolesGuard } from 'apps/shared-Resources/roles.guard';
-import { GrpcMethod } from '@nestjs/microservices';
+import { GrpcMethod, RpcException } from '@nestjs/microservices';
 
 @ApiBasicAuth()
 @ApiTags('auth')
@@ -24,8 +25,7 @@ export class AuthServiceController {
 
   @GrpcMethod('UserService', 'UserExist')
   async findOne(data: { id: string }) {
-    if (!data.id) throw new Error('User ID is required');
-    // console.log('Received gRPC request:', data);
+    if (!data.id) throw new RpcException('User ID is required');
     try {
       return await this.AuthService.getUser(data.id);
     } catch (err) {

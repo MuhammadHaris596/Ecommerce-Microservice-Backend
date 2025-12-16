@@ -4,6 +4,7 @@ import {
   IsArray,
   ValidateNested,
   IsNumber,
+  isNumber,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
@@ -25,7 +26,8 @@ export class CreateProductDto {
   price: string;
 
   @IsNotEmpty()
-  @Type(() => Number) // string -> number conversion
+  @IsNumber()
+  @Type(() => Number) 
   stock: number;
 
   @IsString()

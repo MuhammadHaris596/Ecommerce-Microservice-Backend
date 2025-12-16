@@ -18,11 +18,6 @@ export class InventoryService {
     @InjectModel(Product.name) private productModel: Model<Product>,
   ) {}
 
-  getHello(): string {
-    return 'Hello World!';
-  }
-
-  // gRPC method: Get product by ID
   async getProductById(id: string) {
     if (!id) throw new BadRequestException('Product ID is required');
 
@@ -36,7 +31,6 @@ export class InventoryService {
       stock: product.stock,
     };
   }
-  // gRPC method: Get product by ID
   async getProductByCategory(categoryID: string) {
     if (!categoryID) throw new BadRequestException('Category ID is required');
 
@@ -56,7 +50,8 @@ export class InventoryService {
       _id: { $in: Products.map((item) => item.ProductID) },
     });
 
-    if (!reteriveProducts) throw new NotFoundException('Products not found');
+    if (!reteriveProducts || reteriveProducts.length === 0)
+      throw new NotFoundException('Products not found');
 
     for (let i = 0; i < reteriveProducts.length; i++) {
       if (reteriveProducts[i]._id == Products[i].ProductID) {
@@ -113,11 +108,6 @@ export class InventoryService {
     };
   }
 
-  //https Methods
-
-  //get method  // Display cart to the buyer
-
-  // Create product
   async createProduct(productDto: CreateProductDto) {
     if (!productDto) throw new BadRequestException('Product data is required');
 
@@ -133,7 +123,6 @@ export class InventoryService {
     return await newProduct.save();
   }
 
-  // Update product
   async updateProduct(id: string, dto: UpdateProductDto) {
     const product = await this.productModel.findOne({
       _id: id,
@@ -152,7 +141,6 @@ export class InventoryService {
     return { success: true, message: 'Product updated successfully', product };
   }
 
-  // Update product Images
   async uploadImages(
     id: string,
     files: Express.Multer.File[],
@@ -179,7 +167,6 @@ export class InventoryService {
     };
   }
 
-  // Delete product Images
   async deleteImage(id: string, imageID: string, sellerID: string) {
     const product = await this.productModel.findOne({ _id: id, sellerID });
 
@@ -189,10 +176,8 @@ export class InventoryService {
       );
     }
 
-    // Remove from Cloudinary
     await cloudinary.uploader.destroy(imageID);
 
-    // Remove from DB array
     product.images = product.images.filter((img) => img.imageID !== imageID);
 
     if (product.images.length === 0) {
@@ -208,7 +193,6 @@ export class InventoryService {
     };
   }
 
-  // Delete product
   async removeProduct(id: string, sellerID: string, adminRole: string) {
     const product = await this.productModel.findById(id);
     if (!product) throw new NotFoundException('Product not found');
@@ -222,7 +206,6 @@ export class InventoryService {
     return { message: 'Product deleted successfully', productID: id };
   }
 
-  // Retrieve products by category
   async retrieveProductByCategory(categoryID: string) {
     if (!categoryID) throw new BadRequestException('Category ID is required');
 

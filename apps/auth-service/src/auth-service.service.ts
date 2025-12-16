@@ -2,10 +2,10 @@ import {
   Injectable,
   BadRequestException,
   ConflictException,
-  Res,
   NotFoundException,
 } from '@nestjs/common';
-import { LoginDto, RegisterDto } from '../DTO/registerUser_login.Dto';
+import {LoginDto} from "./dto/login-user.dto"
+import { RegisterDto } from './dto/register-user.dto';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './Schema/schema.auth';
@@ -34,11 +34,14 @@ export class AuthService {
     const existUser = await this.userModel.findOne({
       email: registerDto.email,
     });
-    if (existUser) {
+    if (!existUser) {
       throw new ConflictException('Email already  exists');
     }
-
-    const createUser = new this.userModel(registerDto);
+    const hashedPassword = await bcrypt.hash(registerDto.password, 10);
+    const createUser = new this.userModel({
+      ...registerDto,
+      password: hashedPassword,
+    });
     return await createUser.save();
   }
 
@@ -83,7 +86,7 @@ export class AuthService {
     // TODO: send email here
     console.log('RESET OTP:', resetToken);
 
-    return { message: 'OTP sent to registered email 📩' };
+    return { message: 'OTP sent to registered email' };
   }
 
   async verifyResetCode(code: string) {
@@ -92,9 +95,9 @@ export class AuthService {
       resetTokenExpiry: { $gt: new Date() },
     });
 
-    if (!user) throw new BadRequestException('Invalid or expired code ❌');
+    if (!user) throw new BadRequestException('Invalid or expired code');
 
-    return { valid: true, message: 'Code verified ✅' };
+    return { valid: true, message: 'Code verified ' };
   }
 
   async resetPassword(code: string, newPassword: string) {

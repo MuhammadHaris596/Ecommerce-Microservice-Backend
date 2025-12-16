@@ -26,3 +26,14 @@ import { JwtModule } from '@nestjs/jwt';
   providers: [AuthService],
 })
 export class AuthServiceModule {}
+
+
+    /* JwtModule.registerAsync({
++      global: true,
++      imports: [ConfigModule],
++      useFactory: (configService: ConfigService) => ({
++        secret: configService.getOrThrow<string>('JWT_SECRET'),
++        signOptions: { expiresIn: '1h' },
++      }),
++      inject: [ConfigService],
++    }), */

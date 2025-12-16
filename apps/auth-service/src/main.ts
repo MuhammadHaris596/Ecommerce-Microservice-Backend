@@ -25,12 +25,11 @@ async function bootstrap() {
     },
   });
 
-  // Start both HTTP + gRPC
   await app.startAllMicroservices();
 
   await app.listen(process.env.AUTH_PORT || 3001);
   console.log(
-    `✅ Auth Service running at http://localhost:${process.env.AUTH_PORT}`,
+    `Auth Service running at http://localhost:${process.env.AUTH_PORT}`,
   );
 }
 bootstrap();
