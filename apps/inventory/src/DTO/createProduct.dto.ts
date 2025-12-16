@@ -1,7 +1,11 @@
-import { IsString, IsNotEmpty, IsArray, ValidateNested, IsNumber } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsArray,
+  ValidateNested,
+  IsNumber,
+} from 'class-validator';
 import { Type } from 'class-transformer';
-
-
 
 export class CreateProductDto {
   @IsString()
@@ -20,20 +24,15 @@ export class CreateProductDto {
   @IsNotEmpty()
   price: string;
 
-
   @IsNotEmpty()
-  @Type(() => Number)  // string -> number conversion
+  @Type(() => Number) // string -> number conversion
   stock: number;
-
-
 
   @IsString()
   @IsNotEmpty()
-  categoryID : string;
+  categoryID: string;
 
+  sellerID?: string;
 
-  sellerID? : string
-
-  
   images?: any[];
 }

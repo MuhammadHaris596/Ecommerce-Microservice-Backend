@@ -10,13 +10,9 @@ service CartService {
  
 }
 
-
-
-
 message ClearCartRequest {
   string id = 1;
 }
-
 
 message GetCartRequest {
   string id = 1;

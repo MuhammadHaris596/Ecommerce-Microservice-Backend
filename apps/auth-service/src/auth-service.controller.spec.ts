@@ -13,12 +13,6 @@ describe('AuthServiceController', () => {
 
     authServiceController = app.get<AuthServiceController>(AuthServiceController);
   });
-
-  describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(authServiceController.getHello()).toBe('Hello World!');
-    });
-  });
 });
 
 

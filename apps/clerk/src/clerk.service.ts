@@ -7,7 +7,7 @@ export class ClerkService {
     return await clerkClient.users.getUser(userId);
   }
 
-  async verifyAuthToken(token: string) : Promise<any> {
+  async verifyAuthToken(token: string): Promise<any> {
     try {
       const session = await verifyToken(token, {
         secretKey: process.env.CLERK_SECRET_KEY,

@@ -1,5 +1,10 @@
 // apps/auth-service/src/guards/clerk-auth.guard.ts
-import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  CanActivate,
+  ExecutionContext,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { ClerkService } from './clerk.service';
 
 @Injectable()

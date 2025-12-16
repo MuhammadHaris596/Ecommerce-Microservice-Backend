@@ -8,7 +8,7 @@ import {
 
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
-  catch(exception: any, host: ArgumentsHost) {
+  catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse();
 
@@ -23,7 +23,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       statusCode: status,
       message:
         status === 500
-          ? 'Something went wrong, please try again later.' 
+          ? 'Something went wrong, please try again later.'
           : exception.message || 'Error',
     });
 
