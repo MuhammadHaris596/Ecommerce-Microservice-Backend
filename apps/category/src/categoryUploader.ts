@@ -1,4 +1,9 @@
-import { Injectable, NestInterceptor, ExecutionContext, CallHandler} from '@nestjs/common';
+import {
+  Injectable,
+  NestInterceptor,
+  ExecutionContext,
+  CallHandler,
+} from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CloudinaryService } from 'apps/cloudinary/src/cloudinary.service';
 import { Observable } from 'rxjs';
@@ -11,7 +16,6 @@ export class CategoryUploadInterceptor implements NestInterceptor {
     const { storage, fileFilter } =
       this.cloudinaryService.createCategoryStorage();
 
-    
     this.realInterceptor = new (FileInterceptor('image', {
       storage,
       fileFilter,
@@ -22,5 +26,3 @@ export class CategoryUploadInterceptor implements NestInterceptor {
     return this.realInterceptor.intercept(context, next);
   }
 }
-
-

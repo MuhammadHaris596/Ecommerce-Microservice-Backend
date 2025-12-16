@@ -27,11 +27,7 @@ export class Category {
 
 export const CategorySchema = SchemaFactory.createForClass(Category);
 
-CategorySchema.pre('validate', function(next) {
-    this.slug = slugify(this.name, { lower: true });
-    next();
+CategorySchema.pre('validate', function (next) {
+  this.slug = slugify(this.name, { lower: true });
+  next();
 });
-
-
-
-

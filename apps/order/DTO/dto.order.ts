@@ -1,12 +1,7 @@
-import { IsString, IsNotEmpty, IsArray, ValidateNested, IsNumber } from 'class-validator';
-
-
-//Category ID taken from DTO
+import { IsString, IsNotEmpty } from 'class-validator';
 
 export class CreateProductDto {
- 
   @IsString()
   @IsNotEmpty()
   id: string;
-
 }

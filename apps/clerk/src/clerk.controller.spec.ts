@@ -13,10 +13,4 @@ describe('ClerkController', () => {
 
     clerkController = app.get<ClerkController>(ClerkController);
   });
-
-  describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(clerkController.getHello()).toBe('Hello World!');
-    });
-  });
 });
